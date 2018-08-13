@@ -256,10 +256,10 @@
 			$(".lists input").change(function(){
 				sum();
 			})
-			$(".lists li").on("click",function(){
+			$(".lists li .name").unbind("click").on("click",function(){
 				var r=confirm("是否删除？");
 				if (r==true){
-				  $(this).remove();
+				  $(this).closest("li").remove();
 				  sum();
 				}
 			})
