@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="text/html;charset=utf-8" http-equiv="content-type">
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="webkit|ie-comp|ie-stand" name="renderer">
+    <title>计算</title>
+    <style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		input{
+			border: none;
+			font-size: 0.3rem;
+		}
+		.box{
+			display: flex;
+			padding: 10px;
+			height: 40px;
+			line-height: 40px;
+			position: relative;
+		}
+		.number,.btn{
+			width: 40px;
+			margin: 0 5px;
+			border: 1px solid #d8d8d8;
+			text-align: center;
+		}
+		
+		.btn{
+			background: #0094E3;
+			width: 50px;
+		}
+		.search{
+			flex: 1;
+			border: 1px solid #d8d8d8;
+			padding-left: 5px;
+		}
+		.lists{
+			position: relative;
+		}
+		.lists li,.tit{
+			display: flex;
+			padding: 10px;
+			border-bottom: 1px solid #d8d8d8;
+		}
+		.name{
+			flex: 1;
+		}
+		.lists li .name{
+			font-size: 0.24rem;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+		}
+		.lists li .num,.lists li .price{
+			color: #0094E3;
+		}
+		.num,.price{
+			width: 40px;
+			margin: 0 5px;
+			display: inline-block;
+			text-align: center;
+		}
+		.listbox{
+			position: absolute;
+			top: 50px;
+			left:0;
+			background: #fff;
+			margin: 0 10px;
+			border: 1px solid #e4e4e4;
+			width: 80%;
+			display: none;
+			z-index: 9;
+		}
+		h5{
+			line-height: 50px;
+			text-align: center;
+		}
+		.rr{
+			height: 40px;
+			line-height: 40px;
+			padding: 5px 10px;
+			text-align: right;
+			color: #ff0000;
+		}
+		span{
+			display: inline-block;
+			width: 50px;
+			font-size: 0.26rem;
+		}
+		.jt{
+			height: 40px;
+			width: 60px;
+			position: absolute;
+			bottom: 5px;
+			left: 10px;
+		}
+		s{
+			font-style: normal;
+			text-decoration: none;
+		}
+	</style>
+	<script>
+		;(function(designWidth, maxWidth) {
+			var doc = document,
+				win = window;
+			var docEl = doc.documentElement;
+			var tid;
+			var rootItem,rootStyle;
+		
+			function refreshRem() {
+				var width = docEl.getBoundingClientRect().width;
+				if (!maxWidth) {
+					maxWidth = 540;
+				};
+				if (width > maxWidth) {
+					width = maxWidth;
+				}
+				//与淘宝做法不同，直接采用简单的rem换算方法1rem=100px
+				var rem = width * 100 / designWidth;
+				//兼容UC开始
+				rootStyle="html{font-size:"+rem+'px !important}';
+				rootItem = document.getElementById('rootsize') || document.createElement("style");
+				if(!document.getElementById('rootsize')){
+				document.getElementsByTagName("head")[0].appendChild(rootItem);
+				rootItem.id='rootsize';
+				}
+				if(rootItem.styleSheet){
+				rootItem.styleSheet.disabled||(rootItem.styleSheet.cssText=rootStyle)
+				}else{
+				try{rootItem.innerHTML=rootStyle}catch(f){rootItem.innerText=rootStyle}
+				}
+				//兼容UC结束
+				docEl.style.fontSize = rem + "px";
+			};
+			refreshRem();
+		
+			win.addEventListener("resize", function() {
+				clearTimeout(tid); //防止执行两次
+				tid = setTimeout(refreshRem, 300);
+			}, false);
+		
+			win.addEventListener("pageshow", function(e) {
+				if (e.persisted) { // 浏览器后退的时候重新计算
+					clearTimeout(tid);
+					tid = setTimeout(refreshRem, 300);
+				}
+			}, false);
+		
+			if (doc.readyState === "complete") {
+				doc.body.style.fontSize = "16px";
+			} else {
+				doc.addEventListener("DOMContentLoaded", function(e) {
+					doc.body.style.fontSize = "16px";
+				}, false);
+			}
+		})(640, 640);
+	</script>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<h5>计算价格</h5>
+<div class="box">
+	<input class="search" type="text" placeholder="输入名字">
+	<input class="number" type="number" value="1">
+	<button class="btn" type="button">添加</button>
+	<div class="listbox">
+		<ul><li>买买买</li></ul>
+	</div>
+</div>
+<div class="lists">
+	<div class="tit">
+		<p class="name">名字</p>
+		<span>个数</span>
+		<p class="num">数量</p>
+		<p class="price">价格</p>
+	</div>
+	<ul>
+		<!-- <li>
+			<p class="name">超级大火腿</p>
+			<span>3支</span>
+			<input class="num" type="text" value="1">
+			<input class="price" type="text" value="30">
+		</li> -->
+	</ul>
+	<div class="rr">总计：0元</div>
+	<button type="button" data-html2canvas-ignore class="jt">截图</button>
+</div>
+
+</body>
+<script src="./data.js"></script>
+<script src="./html2canvas.min.js"></script>
+<script>
+	$(function(){
+		$(".jt").on('click',function(){
+			$('canvas').remove();
+			html2canvas($(".lists")[0]).then(canvas => {
+				document.body.appendChild(canvas)
+			});
+		})
+		$(".search").on("keyup",function(){
+			var txt = $(this).val();
+			var newdata =[];
+			data.forEach(function(v,i){
+				if(v.name.indexOf(txt) >-1){
+					newdata.push(v)
+				}
+			})
+			console.log(newdata)
+			var str='';
+			newdata.forEach(function(v,i){
+				str+='<li data-type="'+v.type+'" data-price="'+v.price+'"><s>'+ v.name +'</s> '+v.type+'</li>'
+			})
+			$(".listbox ul").html(str);
+			$(".listbox").show();
+			$(".listbox li").on("click",function(){
+				$(".search").val($(this).find('s').text()).attr('data-price',$(this).attr('data-price'));
+				$(".search").attr('data-type',$(this).attr('data-type'));
+				$(".listbox").hide();
+			})
+		})
+		
+		$(".btn").on("click",function(){
+			if($(".search").val() == ''){
+				alert('商品名字不能为空')
+				return false;
+			}
+			var str = '<p class="name">'+$(".search").val()+'</p><span>'+$(".search").attr("data-type")+'</span><input class="num" type="text" value="'+$(".number").val()+'"><input class="price" type="text" value="'+$(".search").attr("data-price")+'">'
+			$('.lists ul').append("<li>"+str+"</li>");
+			$(".search").val('').attr("data-price",'0')
+			sum();
+			$(".lists input").change(function(){
+				sum();
+			})
+		})
+		
+		function sum(){
+			var r = 0;
+			$('.lists ul li').each(function(v,k){
+				var n =$(this).find(".num").val();
+				var p =$(this).find(".price").val();
+				r+=n*p;
+			})
+			console.log(r)
+			$(".rr").text('总计：'+r+'元');
+		}
+		
+	})
+</script>
+</html>
