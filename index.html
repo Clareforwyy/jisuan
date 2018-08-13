@@ -103,6 +103,12 @@
 			font-style: normal;
 			text-decoration: none;
 		}
+		.imgbox{
+			width: 100%;
+		}
+		.imgbox img{
+			width: 100%;
+		}
 	</style>
 	<script>
 		;(function(designWidth, maxWidth) {
@@ -190,16 +196,20 @@
 	<div class="rr">总计：0元</div>
 	<button type="button" data-html2canvas-ignore class="jt">截图</button>
 </div>
-
+<div class="imgbox"></div>
 </body>
 <script src="./data.js"></script>
 <script src="./html2canvas.min.js"></script>
 <script>
 	$(function(){
 		$(".jt").on('click',function(){
-			$('canvas').remove();
+			$('.imgbox img').remove();
 			html2canvas($(".lists")[0]).then(canvas => {
-				document.body.appendChild(canvas)
+				
+				var image = new Image();
+				image.src = canvas.toDataURL("image/png");
+				$(".imgbox").html(image)
+				
 			});
 		})
 		$(".search").on("keyup",function(){
