@@ -931,9 +931,14 @@ var data = [
 		price:"29"
 	},
 	{
-		name:"元气uu洁齿棒",
+		name:"元气uu洁齿棒1个",
 		type:"1个",
 		price:"1.5"
+	},
+	{
+		name:"元气uu洁齿棒6个",
+		type:"6个",
+		price:"9"
 	},
 	{
 		name:"元气弹（肉+蛋黄）",
@@ -1024,5 +1029,10 @@ var data = [
 		name:"顽皮鲜肉羹（羊肉 鸡肉 鸭肉）50g",
 		type:"1袋",
 		price:"5.5"
+	},
+	{
+		name:"牛肉牛皮条15根",
+		type:"1袋",
+		price:"9"
 	},
 ]

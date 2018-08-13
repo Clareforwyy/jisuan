@@ -92,12 +92,17 @@
 			width: 50px;
 			font-size: 0.26rem;
 		}
-		.jt{
+		.jt,.qk{
 			height: 40px;
 			width: 60px;
 			position: absolute;
 			bottom: 5px;
 			left: 10px;
+			border-radius: 2px;
+			background: #0094E3;
+		}
+		.qk{
+			left: 80px;
 		}
 		s{
 			font-style: normal;
@@ -195,6 +200,7 @@
 	</ul>
 	<div class="rr">总计：0元</div>
 	<button type="button" data-html2canvas-ignore class="jt">截图</button>
+	<button type="button" data-html2canvas-ignore class="qk">清空</button>
 </div>
 <div class="imgbox"></div>
 </body>
@@ -202,6 +208,10 @@
 <script src="./html2canvas.min.js"></script>
 <script>
 	$(function(){
+		$(".qk").on("click",function(){
+			$(".lists ul").html('');
+			sum();
+		})
 		$(".jt").on('click',function(){
 			$('.imgbox img').remove();
 			html2canvas($(".lists")[0]).then(canvas => {
@@ -245,6 +255,13 @@
 			sum();
 			$(".lists input").change(function(){
 				sum();
+			})
+			$(".lists li").on("click",function(){
+				var r=confirm("是否删除？");
+				if (r==true){
+				  $(this).remove();
+				  sum();
+				}
 			})
 		})
 		
