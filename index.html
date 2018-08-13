@@ -52,14 +52,12 @@
 		}
 		.lists li .name{
 			font-size: 0.24rem;
-			overflow: hidden;
-			text-overflow:ellipsis;
-			white-space: nowrap;
+			padding: 0 5px;
 		}
 		.lists li .num,.lists li .price{
 			color: #0094E3;
 		}
-		.num,.price{
+		.num,.price,.sum{
 			width: 40px;
 			margin: 0 5px;
 			display: inline-block;
@@ -86,11 +84,6 @@
 			padding: 5px 10px;
 			text-align: right;
 			color: #ff0000;
-		}
-		span{
-			display: inline-block;
-			width: 50px;
-			font-size: 0.26rem;
 		}
 		.jt,.qk{
 			height: 40px;
@@ -186,14 +179,14 @@
 <div class="lists">
 	<div class="tit">
 		<p class="name">名字</p>
-		<span>个数</span>
+		<p class="sum">个数</span>
 		<p class="num">数量</p>
 		<p class="price">价格</p>
 	</div>
 	<ul>
 		<!-- <li>
 			<p class="name">超级大火腿</p>
-			<span>3支</span>
+			<input class="sum" type="text" value="3支" readonly>
 			<input class="num" type="text" value="1">
 			<input class="price" type="text" value="30">
 		</li> -->
@@ -249,7 +242,7 @@
 				alert('商品名字不能为空')
 				return false;
 			}
-			var str = '<p class="name">'+$(".search").val()+'</p><span>'+$(".search").attr("data-type")+'</span><input class="num" type="text" value="'+$(".number").val()+'"><input class="price" type="text" value="'+$(".search").attr("data-price")+'">'
+			var str = '<p class="name">'+$(".search").val()+'</p><input class="sum" type="text" value="'+$(".search").attr("data-type")+'" readonly><input class="num" type="text" value="'+$(".number").val()+'"><input class="price" type="text" value="'+$(".search").attr("data-price")+'">'
 			$('.lists ul').append("<li>"+str+"</li>");
 			$(".search").val('').attr("data-price",'0')
 			sum();
