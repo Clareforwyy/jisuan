@@ -43,6 +43,7 @@
 			position: relative;
 		}
 		.lists li,.tit{
+			font-size: 0.24rem;
 			display: flex;
 			padding: 10px;
 			border-bottom: 1px solid #d8d8d8;
@@ -50,15 +51,18 @@
 		.name{
 			flex: 1;
 		}
+		.lists li input{
+			font-size: 0.24rem;
+		}
 		.lists li .name{
 			font-size: 0.24rem;
 			padding: 0 5px;
 		}
-		.lists li .num,.lists li .price{
+		.lists li .aprice{
 			color: #0094E3;
 		}
-		.num,.price,.sum{
-			width: 40px;
+		.num,.price,.sum,.aprice{
+			width: 32px;
 			margin: 0 5px;
 			display: inline-block;
 			text-align: center;
@@ -181,7 +185,8 @@
 		<p class="name">名字</p>
 		<p class="sum">个数</span>
 		<p class="num">数量</p>
-		<p class="price">价格</p>
+		<p class="price">单价</p>
+		<p class="aprice">总价</p>
 	</div>
 	<ul>
 		<!-- <li>
@@ -189,6 +194,7 @@
 			<input class="sum" type="text" value="3支" readonly>
 			<input class="num" type="text" value="1">
 			<input class="price" type="text" value="30">
+			<input class="aprice" type="text" value="30" readonly>
 		</li> -->
 	</ul>
 	<div class="rr">总计：0元</div>
@@ -242,7 +248,11 @@
 				alert('商品名字不能为空')
 				return false;
 			}
-			var str = '<p class="name">'+$(".search").val()+'</p><input class="sum" type="text" value="'+$(".search").attr("data-type")+'" readonly><input class="num" type="text" value="'+$(".number").val()+'"><input class="price" type="text" value="'+$(".search").attr("data-price")+'">'
+			var str = '<p class="name">'+$(".search").val()+'</p>'
+			+'<input class="sum" type="text" value="'+$(".search").attr("data-type")+'" readonly>'
+			+'<input class="num" type="text" value="'+$(".number").val()+'">'
+			+'<input class="price" type="text" value="'+$(".search").attr("data-price")+'">'
+			+'<input class="aprice" type="text" value="'+$(".number").val()*$(".search").attr("data-price")+'" readonly>';
 			$('.lists ul').append("<li>"+str+"</li>");
 			$(".search").val('').attr("data-price",'0')
 			sum();
